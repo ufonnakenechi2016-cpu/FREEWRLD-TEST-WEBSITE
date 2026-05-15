@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FREEWRLD AI — Performance Creative That Actually Scales</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red:      #C83200;
+      --gold:     #D4A843;
+      --bone:     #F0EDE8;
+      --black:    #080808;
+      --surface:  #161616;
+      --raised:   #202020;
+      --float:    #2A2A2A;
+      --silver:   #8C8C8C;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--bone);
+      font-family: 'Space Grotesk', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .btn-red {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--red); color: var(--bone);
+      font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+      padding: .875rem 2rem; border-radius: 6px; text-decoration: none;
+      border: none; cursor: pointer;
+      box-shadow: 0 2px 8px rgba(200,50,0,.3), 0 8px 24px rgba(200,50,0,.2);
+      transition: transform 220ms cubic-bezier(.34,1.56,.64,1), box-shadow 220ms ease;
+    }
+    .btn-red:hover  { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(200,50,0,.45), 0 12px 32px rgba(200,50,0,.25); }
+    .btn-red:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+    .btn-red:active { transform: scale(.97); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: transparent; color: var(--bone);
+      font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+      padding: .875rem 2rem; border-radius: 6px; text-decoration: none;
+      border: 1.5px solid rgba(240,237,232,.22);
+      transition: transform 220ms cubic-bezier(.34,1.56,.64,1), border-color 220ms ease;
+      cursor: pointer;
+    }
+    .btn-ghost:hover  { border-color: rgba(240,237,232,.6); transform: translateY(-1px); }
+    .btn-ghost:focus-visible { outline: 2px solid var(--bone); outline-offset: 3px; }
+    .btn-ghost:active { transform: scale(.97); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(8,8,8,.88); backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(240,237,232,.06);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between; height: 68px;
+    }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a {
+      color: rgba(240,237,232,.65); font-size: .9rem; font-weight: 500;
+      text-decoration: none; transition: color 150ms ease;
+    }
+    .nav-links a:hover { color: var(--bone); }
+
+    .feat-card {
+      background: var(--surface); border: 1px solid rgba(240,237,232,.08);
+      border-radius: 12px; padding: 2rem;
+      transition: transform 250ms cubic-bezier(.34,1.56,.64,1), border-color 250ms ease;
+    }
+    .feat-card:hover { transform: translateY(-4px); border-color: rgba(200,50,0,.3); }
+
+    .testi-card {
+      background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 1.5rem;
+      transition: transform 250ms cubic-bezier(.34,1.56,.64,1), box-shadow 250ms ease;
+    }
+    .testi-card:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(200,50,0,.08), 0 4px 12px rgba(200,50,0,.12), 0 12px 32px rgba(200,50,0,.08); }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem,6vw,5rem);
+      color: var(--red); line-height: 1;
+    }
+
+    details summary { cursor: pointer; list-style: none; }
+    details summary::-webkit-details-marker { display: none; }
+    .faq-icon { transition: transform 250ms ease; display: inline-block; }
+    details[open] .faq-icon { transform: rotate(45deg); }
+
+    .reveal { opacity: 1; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .two-col { grid-template-columns: 1fr !important; }
+      .three-col { grid-template-columns: 1fr !important; }
+      .five-col { grid-template-columns: repeat(2,1fr) !important; }
+      .stat-row > div { border: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" style="display:flex;align-items:center;gap:.75rem;text-decoration:none;">
+      <img src="brand_assets/brand-logo.jpeg" alt="FREEWRLD AI" style="height:44px;width:auto;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;color:var(--bone);letter-spacing:.04em;">FREEWRLD AI</span>
+    </a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#cta" class="btn-red" style="font-size:.875rem;padding:.65rem 1.4rem;">Book a Call →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero-section" style="background:var(--black);padding:130px 2rem 80px;position:relative;overflow:hidden;" class="entropy-section">
+  <div style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(ellipse at center,rgba(200,50,0,.14) 0%,transparent 68%);pointer-events:none;z-index:1;"></div>
+  <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2rem;position:relative;z-index:2;">
+
+    <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(200,50,0,.1);border:1px solid rgba(200,50,0,.28);border-radius:100px;padding:.35rem 1rem;">
+      <span style="width:6px;height:6px;border-radius:50%;background:var(--red);display:inline-block;"></span>
+      <span style="font-size:.75rem;font-weight:600;color:rgba(240,237,232,.8);letter-spacing:.07em;text-transform:uppercase;">AI-Powered Performance Creative</span>
+    </div>
+
+    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7.5vw,6.5rem);line-height:.94;color:#fff;max-width:920px;letter-spacing:-.01em;">
+      Build A Performance Creative System That Actually
+      <span style="color:var(--red);"> Breaks The Limit.</span>
+    </h1>
+
+    <p style="font-size:1.1rem;line-height:1.72;color:rgba(240,237,232,.6);max-width:540px;">
+      We turn your raw content into a relentless stream of high-converting ads — powered by AI, built for scale, engineered to break every algorithm.
+    </p>
+
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+      <a href="#cta" class="btn-red" style="font-size:1rem;">Get Your Free Strategy Call →</a>
+      <a href="#work" class="btn-ghost" style="font-size:1rem;">See Our Work</a>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:.875rem;margin-top:.5rem;">
+      <p style="font-size:.75rem;font-weight:500;color:rgba(240,237,232,.3);text-transform:uppercase;letter-spacing:.1em;">Trusted by fast-growing brands</p>
+      <div style="display:flex;gap:2.5rem;align-items:center;flex-wrap:wrap;justify-content:center;opacity:.38;filter:grayscale(1);">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#fff;letter-spacing:.04em;">SHOPIFY</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#fff;letter-spacing:.04em;">META</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#fff;letter-spacing:.04em;">TIKTOK</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#fff;letter-spacing:.04em;">KLAVIYO</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#fff;letter-spacing:.04em;">GORGIAS</span>
+      </div>
+    </div>
+
+    <!-- Ad strip -->
+    <div id="work" style="display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;width:100%;max-width:900px;margin-top:2rem;" class="five-col">
+      <div style="background:var(--surface);border:1px solid rgba(240,237,232,.07);border-radius:12px;overflow:hidden;aspect-ratio:9/14;position:relative;">
+        <img src="https://placehold.co/320x448/161616/C83200?text=AD+01" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 55%);"></div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;font-size:.65rem;color:#4caf50;font-weight:700;">↑ 4.2x ROAS</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid rgba(240,237,232,.07);border-radius:12px;overflow:hidden;aspect-ratio:9/14;position:relative;">
+        <img src="https://placehold.co/320x448/161616/D4A843?text=AD+02" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 55%);"></div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;font-size:.65rem;color:#4caf50;font-weight:700;">↑ $180k Month</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid rgba(240,237,232,.07);border-radius:12px;overflow:hidden;aspect-ratio:9/14;position:relative;">
+        <img src="https://placehold.co/320x448/252525/C83200?text=AD+03" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 55%);"></div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;font-size:.65rem;color:#4caf50;font-weight:700;">↑ 6.8x ROAS</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid rgba(240,237,232,.07);border-radius:12px;overflow:hidden;aspect-ratio:9/14;position:relative;">
+        <img src="https://placehold.co/320x448/161616/F0EDE8?text=AD+04" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 55%);"></div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;font-size:.65rem;color:#4caf50;font-weight:700;">↑ $220k Month</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid rgba(240,237,232,.07);border-radius:12px;overflow:hidden;aspect-ratio:9/14;position:relative;">
+        <img src="https://placehold.co/320x448/252525/8C8C8C?text=AD+05" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 55%);"></div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;font-size:.65rem;color:#4caf50;font-weight:700;">↑ 5.1x ROAS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section style="background:#fff;padding:6rem 2rem;" class="reveal">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;" class="two-col">
+    <div>
+      <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);margin-bottom:1rem;">The Problem</p>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1.05;color:#111;margin-bottom:1.5rem;">
+        Scaling stops when you run out of great creative... we'll make sure that never happens again
+      </h2>
+      <p style="font-size:1.05rem;line-height:1.75;color:#555;margin-bottom:1.25rem;">
+        Most brands hit a ceiling not because their product isn't great — but because they keep running the same 3 creatives until the algorithm burns them out. FREEWRLD AI breaks that cycle permanently.
+      </p>
+      <p style="font-size:1.05rem;line-height:1.75;color:#555;">
+        Our system delivers a constant stream of fresh, tested, high-performing creatives — so you always have winning ads in the pipeline, week after week.
+      </p>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;">
+      <div style="background:#111;border-radius:16px;padding:2rem;width:100%;max-width:400px;">
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div style="display:flex;align-items:center;gap:1rem;background:#1a1a1a;border-radius:8px;padding:1rem;">
+            <div style="width:40px;height:40px;min-width:40px;background:rgba(200,50,0,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">🔥</div>
+            <div style="flex:1;">
+              <div style="font-size:.875rem;font-weight:600;color:#fff;">Creative Fatigue</div>
+              <div style="font-size:.75rem;color:#555;">Same 3 ads for 6 weeks</div>
+            </div>
+            <div style="color:#ef4444;font-size:.8rem;font-weight:700;white-space:nowrap;">−62% CTR</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1rem;background:#1a1a1a;border-radius:8px;padding:1rem;">
+            <div style="width:40px;height:40px;min-width:40px;background:rgba(200,50,0,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">📉</div>
+            <div style="flex:1;">
+              <div style="font-size:.875rem;font-weight:600;color:#fff;">Rising CAC</div>
+              <div style="font-size:.75rem;color:#555;">Audience exhaustion</div>
+            </div>
+            <div style="color:#ef4444;font-size:.8rem;font-weight:700;white-space:nowrap;">+$48 CAC</div>
+          </div>
+          <div style="height:1px;background:rgba(255,255,255,.06);"></div>
+          <div style="display:flex;align-items:center;gap:1rem;background:rgba(200,50,0,.08);border:1px solid rgba(200,50,0,.22);border-radius:8px;padding:1rem;">
+            <div style="width:40px;height:40px;min-width:40px;background:rgba(200,50,0,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">⚡</div>
+            <div style="flex:1;">
+              <div style="font-size:.875rem;font-weight:600;color:var(--red);">FREEWRLD Solution</div>
+              <div style="font-size:.75rem;color:#555;">16 new ads every month</div>
+            </div>
+            <div style="color:#4caf50;font-size:.8rem;font-weight:700;white-space:nowrap;">+340% ROAS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="services" style="background:#f8f7f5;padding:6rem 2rem;" class="reveal">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;" class="two-col">
+    <div>
+      <img src="https://placehold.co/520x380/111111/C83200?text=AI+Creative+Engine" alt="" style="width:100%;border-radius:16px;">
+    </div>
+    <div>
+      <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);margin-bottom:1rem;">Our Solution</p>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,4vw,3.5rem);line-height:1.05;color:#111;margin-bottom:1.5rem;">
+        Our AI-powered creative strategy turns your existing content into 16 high-converting ads
+      </h2>
+      <p style="font-size:1.05rem;line-height:1.75;color:#555;margin-bottom:1rem;">
+        You've already got the raw material. We extract it, remix it, and engineer it into scroll-stopping ads that speak directly to your audience's desires — at a velocity no in-house team can match.
+      </p>
+      <p style="font-size:1.05rem;line-height:1.75;color:#555;margin-bottom:2rem;">
+        Every ad is built on performance data, not gut feeling. We test. We iterate. We scale what works.
+      </p>
+      <a href="#cta" class="btn-red">Start Scaling Now →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES (DARK) -->
+<section style="background:var(--surface);padding:6rem 2rem;position:relative;overflow:hidden;" class="reveal">
+  <div style="position:absolute;top:0;right:0;width:600px;height:600px;background:radial-gradient(ellipse at top right,rgba(200,50,0,.07) 0%,transparent 60%);pointer-events:none;"></div>
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);margin-bottom:.75rem;">What We Actually Deliver</p>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:#fff;line-height:1.05;">
+        When we say AI-powered performance,<br>we mean it
+      </h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;">
+      <div class="feat-card">
+        <div style="width:44px;height:44px;background:rgba(200,50,0,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem;">🎬</div>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#fff;margin-bottom:.6rem;">Finding Winning Content</h3>
+        <p style="font-size:.9rem;line-height:1.65;color:rgba(240,237,232,.5);">We scan your library and the web for hooks that already perform, then extract what makes them convert.</p>
+      </div>
+      <div class="feat-card">
+        <div style="width:44px;height:44px;background:rgba(200,50,0,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem;">✂️</div>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#fff;margin-bottom:.6rem;">Ad Editing Excellence</h3>
+        <p style="font-size:.9rem;line-height:1.65;color:rgba(240,237,232,.5);">Our AI editors produce fast-paced, thumb-stopping cuts tuned to each platform's algorithm.</p>
+      </div>
+      <div class="feat-card">
+        <div style="width:44px;height:44px;background:rgba(200,50,0,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem;">📊</div>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#fff;margin-bottom:.6rem;">Data-Driven Iteration</h3>
+        <p style="font-size:.9rem;line-height:1.65;color:rgba(240,237,232,.5);">Every creative is tracked. Winners scale, losers get cut, and learnings feed the next batch.</p>
+      </div>
+      <div class="feat-card">
+        <div style="width:44px;height:44px;background:rgba(200,50,0,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem;">🚀</div>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#fff;margin-bottom:.6rem;">Rapid Creative Rollout</h3>
+        <p style="font-size:.9rem;line-height:1.65;color:rgba(240,237,232,.5);">16+ fresh ads per month on a predictable cadence — never waiting on creatives again.</p>
+      </div>
+      <div class="feat-card">
+        <div style="width:44px;height:44px;background:rgba(200,50,0,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem;">🧠</div>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#fff;margin-bottom:.6rem;">Creative Intelligence</h3>
+        <p style="font-size:.9rem;line-height:1.65;color:rgba(240,237,232,.5);">Our AI models learn your brand, your audience, and your competitors — getting smarter every cycle.</p>
+      </div>
+      <div class="feat-card">
+        <div style="width:44px;height:44px;background:rgba(200,50,0,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem;">💬</div>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#fff;margin-bottom:.6rem;">Dedicated Creative Strategist</h3>
+        <p style="font-size:.9rem;line-height:1.65;color:rgba(240,237,232,.5);">One point of contact who owns your creative performance — available, accountable, relentless.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section style="background:var(--black);padding:5rem 2rem;border-top:1px solid rgba(240,237,232,.05);border-bottom:1px solid rgba(240,237,232,.05);position:relative;overflow:hidden;" class="reveal entropy-section">
+  <div style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;text-align:center;" class="stat-row">
+    <div>
+      <div class="stat-num">1,500+</div>
+      <div style="font-size:.875rem;color:rgba(240,237,232,.45);margin-top:.5rem;">Ads Produced</div>
+    </div>
+    <div style="border-left:1px solid rgba(240,237,232,.07);border-right:1px solid rgba(240,237,232,.07);">
+      <div class="stat-num">50+</div>
+      <div style="font-size:.875rem;color:rgba(240,237,232,.45);margin-top:.5rem;">Brands Scaled</div>
+    </div>
+    <div>
+      <div class="stat-num">$20M+</div>
+      <div style="font-size:.875rem;color:rgba(240,237,232,.45);margin-top:.5rem;">Revenue Generated</div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section style="background:var(--black);padding:6rem 2rem;position:relative;overflow:hidden;" class="reveal entropy-section">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:#fff;line-height:1.05;">
+        Here's what happens when we<br>remake your ads
+      </h2>
+      <p style="font-size:1rem;color:rgba(240,237,232,.45);margin-top:1rem;max-width:500px;margin-left:auto;margin-right:auto;">Real results from real brands. Before our system — and after.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;">
+      <div style="border-radius:14px;overflow:hidden;aspect-ratio:9/16;position:relative;background:var(--surface);">
+        <img src="https://placehold.co/320x568/161616/555555?text=BEFORE" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8),transparent 50%);"></div>
+        <div style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,.7);border-radius:4px;padding:3px 8px;font-size:.65rem;font-weight:700;color:#aaa;">BEFORE</div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;">
+          <div style="font-size:.7rem;color:#ef4444;font-weight:700;">1.2x ROAS</div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.4);">$4,200 spend</div>
+        </div>
+      </div>
+      <div style="border-radius:14px;overflow:hidden;aspect-ratio:9/16;position:relative;background:var(--surface);">
+        <img src="https://placehold.co/320x568/1a1a1a/C83200?text=AFTER" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8),transparent 50%);"></div>
+        <div style="position:absolute;top:10px;left:10px;background:rgba(200,50,0,.9);border-radius:4px;padding:3px 8px;font-size:.65rem;font-weight:700;color:#fff;">AFTER</div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;">
+          <div style="font-size:.7rem;color:#4caf50;font-weight:700;">5.8x ROAS</div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.4);">$28k revenue</div>
+        </div>
+      </div>
+      <div style="border-radius:14px;overflow:hidden;aspect-ratio:9/16;position:relative;background:var(--surface);">
+        <img src="https://placehold.co/320x568/111111/444444?text=BEFORE" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8),transparent 50%);"></div>
+        <div style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,.7);border-radius:4px;padding:3px 8px;font-size:.65rem;font-weight:700;color:#aaa;">BEFORE</div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;">
+          <div style="font-size:.7rem;color:#ef4444;font-weight:700;">0.9x ROAS</div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.4);">$6,100 spend</div>
+        </div>
+      </div>
+      <div style="border-radius:14px;overflow:hidden;aspect-ratio:9/16;position:relative;background:var(--surface);">
+        <img src="https://placehold.co/320x568/161616/C83200?text=AFTER" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8),transparent 50%);"></div>
+        <div style="position:absolute;top:10px;left:10px;background:rgba(200,50,0,.9);border-radius:4px;padding:3px 8px;font-size:.65rem;font-weight:700;color:#fff;">AFTER</div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;">
+          <div style="font-size:.7rem;color:#4caf50;font-weight:700;">6.2x ROAS</div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.4);">$42k revenue</div>
+        </div>
+      </div>
+      <div style="border-radius:14px;overflow:hidden;aspect-ratio:9/16;position:relative;background:var(--surface);">
+        <img src="https://placehold.co/320x568/1a1a1a/D4A843?text=AFTER" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8),transparent 50%);"></div>
+        <div style="position:absolute;top:10px;left:10px;background:rgba(200,50,0,.9);border-radius:4px;padding:3px 8px;font-size:.65rem;font-weight:700;color:#fff;">AFTER</div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;">
+          <div style="font-size:.7rem;color:#4caf50;font-weight:700;">4.9x ROAS</div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.4);">$33k revenue</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a href="#cta" class="btn-red">Get Your Ads Remade →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" style="background:#fff;padding:6rem 2rem;" class="reveal">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);margin-bottom:.75rem;">How It Works</p>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:#111;line-height:1.05;">
+        Turn your existing content into new<br>winning ads in 3 simple steps
+      </h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;" class="three-col">
+      <div style="border:1.5px solid #eee;border-radius:16px;overflow:hidden;">
+        <div style="padding:1.75rem;border-bottom:1.5px solid #eee;display:flex;align-items:center;gap:1rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:2.75rem;color:#e5e5e5;line-height:1;">01</span>
+          <div>
+            <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:.2rem;">Step One</div>
+            <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#111;">Send Us Your Content</h3>
+          </div>
+        </div>
+        <img src="https://placehold.co/400x200/f5f5f5/C83200?text=Upload+Content" alt="" style="width:100%;height:160px;object-fit:cover;">
+        <div style="padding:1.5rem;">
+          <p style="font-size:.9rem;line-height:1.68;color:#555;">Drop your raw footage, photos, and copy into our shared workspace. No lengthy briefing calls needed — we take it from there.</p>
+        </div>
+      </div>
+      <div style="border:1.5px solid #eee;border-radius:16px;overflow:hidden;">
+        <div style="padding:1.75rem;border-bottom:1.5px solid #eee;display:flex;align-items:center;gap:1rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:2.75rem;color:#e5e5e5;line-height:1;">02</span>
+          <div>
+            <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:.2rem;">Step Two</div>
+            <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#111;">We Use AI To Create Winners</h3>
+          </div>
+        </div>
+        <img src="https://placehold.co/400x200/f5f5f5/C83200?text=AI+Production" alt="" style="width:100%;height:160px;object-fit:cover;">
+        <div style="padding:1.5rem;">
+          <p style="font-size:.9rem;line-height:1.68;color:#555;">Our AI engine analyses your content, builds variations, and our creative team stress-tests every cut before it touches your ad account.</p>
+        </div>
+      </div>
+      <div style="border:1.5px solid #eee;border-radius:16px;overflow:hidden;">
+        <div style="padding:1.75rem;border-bottom:1.5px solid #eee;display:flex;align-items:center;gap:1rem;">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:2.75rem;color:#e5e5e5;line-height:1;">03</span>
+          <div>
+            <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:.2rem;">Step Three</div>
+            <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#111;">Scale With Guaranteed Performance</h3>
+          </div>
+        </div>
+        <img src="https://placehold.co/400x200/f5f5f5/C83200?text=Scale+Revenue" alt="" style="width:100%;height:160px;object-fit:cover;">
+        <div style="padding:1.5rem;">
+          <p style="font-size:.9rem;line-height:1.68;color:#555;">Launch, test, and scale your winners. We monitor performance and keep the creative pipeline full so you never hit a wall again.</p>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem;">
+      <a href="#cta" class="btn-red">Start Your Free Strategy Call →</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="background:#f8f7f5;padding:6rem 2rem;" class="reveal">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:#111;line-height:1.05;">
+        We've helped brands power past<br>$100k months
+      </h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+      <div class="testi-card">
+        <div style="color:#F59E0B;font-size:.9rem;margin-bottom:1rem;">★★★★★</div>
+        <p style="font-size:.95rem;line-height:1.65;color:#333;margin-bottom:1.25rem;">"FREEWRLD AI took us from 1.8x to 5.4x ROAS in 60 days. We went from running 3 ads to having 20 live creatives. Game changer."</p>
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <img src="https://placehold.co/40x40/C83200/FFFFFF?text=JM" alt="" style="width:40px;height:40px;border-radius:50%;">
+          <div>
+            <div style="font-size:.875rem;font-weight:600;color:#111;">Jordan M.</div>
+            <div style="font-size:.75rem;color:#888;">Founder, Apex Supplements</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div style="color:#F59E0B;font-size:.9rem;margin-bottom:1rem;">★★★★★</div>
+        <p style="font-size:.95rem;line-height:1.65;color:#333;margin-bottom:1.25rem;">"Scaled from $40k to $180k months without burning creatives. The AI system just keeps delivering. I don't know how they do it so fast."</p>
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <img src="https://placehold.co/40x40/080808/C83200?text=SL" alt="" style="width:40px;height:40px;border-radius:50%;">
+          <div>
+            <div style="font-size:.875rem;font-weight:600;color:#111;">Sarah L.</div>
+            <div style="font-size:.75rem;color:#888;">CMO, Luxe Skincare</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div style="color:#F59E0B;font-size:.9rem;margin-bottom:1rem;">★★★★★</div>
+        <p style="font-size:.95rem;line-height:1.65;color:#333;margin-bottom:1.25rem;">"CAC dropped 42% in 6 weeks. The before/after creative analysis alone was worth the investment. These guys are obsessed with data."</p>
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <img src="https://placehold.co/40x40/D4A843/080808?text=MK" alt="" style="width:40px;height:40px;border-radius:50%;">
+          <div>
+            <div style="font-size:.875rem;font-weight:600;color:#111;">Marcus K.</div>
+            <div style="font-size:.75rem;color:#888;">CEO, Urban Thread Co.</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div style="color:#F59E0B;font-size:.9rem;margin-bottom:1rem;">★★★★★</div>
+        <p style="font-size:.95rem;line-height:1.65;color:#333;margin-bottom:1.25rem;">"First month with FREEWRLD AI: $220k revenue. Previous record was $68k. Not going back to freelance editors ever again."</p>
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <img src="https://placehold.co/40x40/C83200/FFFFFF?text=AT" alt="" style="width:40px;height:40px;border-radius:50%;">
+          <div>
+            <div style="font-size:.875rem;font-weight:600;color:#111;">Ava T.</div>
+            <div style="font-size:.75rem;color:#888;">Founder, Bloom Beauty</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div style="color:#F59E0B;font-size:.9rem;margin-bottom:1rem;">★★★★★</div>
+        <p style="font-size:.95rem;line-height:1.65;color:#333;margin-bottom:1.25rem;">"16 ads in 5 days. Every single one on-brand and platform-optimised. Feels like we have a 10-person creative team."</p>
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <img src="https://placehold.co/40x40/080808/F0EDE8?text=DR" alt="" style="width:40px;height:40px;border-radius:50%;">
+          <div>
+            <div style="font-size:.875rem;font-weight:600;color:#111;">Dev R.</div>
+            <div style="font-size:.75rem;color:#888;">Head of Growth, Kova Athletics</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div style="color:#F59E0B;font-size:.9rem;margin-bottom:1rem;">★★★★★</div>
+        <p style="font-size:.95rem;line-height:1.65;color:#333;margin-bottom:1.25rem;">"Tried 3 agencies before FREEWRLD AI. This is the only one that delivered measurable ROAS improvement in the first 30 days."</p>
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <img src="https://placehold.co/40x40/8C8C8C/FFFFFF?text=NW" alt="" style="width:40px;height:40px;border-radius:50%;">
+          <div>
+            <div style="font-size:.875rem;font-weight:600;color:#111;">Nikki W.</div>
+            <div style="font-size:.75rem;color:#888;">DTC Director, PureFuel</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO ADS -->
+<section style="background:var(--black);padding:6rem 2rem;position:relative;overflow:hidden;" class="reveal entropy-section">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:3rem;">
+      <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);margin-bottom:.75rem;">Our Creative Output</p>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:#fff;line-height:1.05;">
+        Performance ads that stop the<br>scroll and drive sales
+      </h2>
+      <p style="font-size:1rem;color:rgba(240,237,232,.4);margin-top:1rem;">Every ad below is real. Every result is verified.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;">
+      <div style="aspect-ratio:9/16;background:var(--surface);border-radius:12px;overflow:hidden;position:relative;cursor:pointer;">
+        <img src="https://placehold.co/320x568/161616/C83200?text=Video+1" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent 50%);"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:rgba(200,50,0,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+          <svg width="14" height="16" viewBox="0 0 14 16" fill="white"><path d="M2 1l11 7-11 7V1z"/></svg>
+        </div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;font-size:.65rem;color:#4caf50;font-weight:700;">3.2M views · 6.1x ROAS</div>
+      </div>
+      <div style="aspect-ratio:9/16;background:var(--surface);border-radius:12px;overflow:hidden;position:relative;cursor:pointer;">
+        <img src="https://placehold.co/320x568/252525/D4A843?text=Video+2" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent 50%);"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:rgba(200,50,0,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+          <svg width="14" height="16" viewBox="0 0 14 16" fill="white"><path d="M2 1l11 7-11 7V1z"/></svg>
+        </div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;font-size:.65rem;color:#4caf50;font-weight:700;">1.8M views · 4.7x ROAS</div>
+      </div>
+      <div style="aspect-ratio:9/16;background:var(--surface);border-radius:12px;overflow:hidden;position:relative;cursor:pointer;">
+        <img src="https://placehold.co/320x568/161616/F0EDE8?text=Video+3" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent 50%);"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:rgba(200,50,0,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+          <svg width="14" height="16" viewBox="0 0 14 16" fill="white"><path d="M2 1l11 7-11 7V1z"/></svg>
+        </div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;font-size:.65rem;color:#4caf50;font-weight:700;">5.1M views · 7.3x ROAS</div>
+      </div>
+      <div style="aspect-ratio:9/16;background:var(--surface);border-radius:12px;overflow:hidden;position:relative;cursor:pointer;">
+        <img src="https://placehold.co/320x568/1a1a1a/C83200?text=Video+4" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent 50%);"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:rgba(200,50,0,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+          <svg width="14" height="16" viewBox="0 0 14 16" fill="white"><path d="M2 1l11 7-11 7V1z"/></svg>
+        </div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;font-size:.65rem;color:#4caf50;font-weight:700;">2.4M views · 5.5x ROAS</div>
+      </div>
+      <div style="aspect-ratio:9/16;background:var(--surface);border-radius:12px;overflow:hidden;position:relative;cursor:pointer;">
+        <img src="https://placehold.co/320x568/252525/8C8C8C?text=Video+5" alt="" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent 50%);"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:rgba(200,50,0,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+          <svg width="14" height="16" viewBox="0 0 14 16" fill="white"><path d="M2 1l11 7-11 7V1z"/></svg>
+        </div>
+        <div style="position:absolute;bottom:.75rem;left:.75rem;font-size:.65rem;color:#4caf50;font-weight:700;">4.0M views · 8.1x ROAS</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a href="#cta" class="btn-red">Get Ads Like These →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:#fff;padding:6rem 2rem;" class="reveal">
+  <div style="max-width:720px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:#111;line-height:1.05;">Frequently asked questions</h2>
+    </div>
+    <details style="border-bottom:1px solid #eee;">
+      <summary style="display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;font-size:1rem;font-weight:600;color:#111;gap:1rem;">
+        How many ads do I get per month?
+        <span class="faq-icon" style="font-size:1.3rem;color:var(--red);flex-shrink:0;">+</span>
+      </summary>
+      <div style="padding-bottom:1.5rem;font-size:.95rem;line-height:1.72;color:#555;">Our standard plan includes 16 ad creatives per month. Higher-tier plans include up to 32+. Every ad is platform-specific and fully edited — ready to launch.</div>
+    </details>
+    <details style="border-bottom:1px solid #eee;">
+      <summary style="display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;font-size:1rem;font-weight:600;color:#111;gap:1rem;">
+        What content do I need to provide?
+        <span class="faq-icon" style="font-size:1.3rem;color:var(--red);flex-shrink:0;">+</span>
+      </summary>
+      <div style="padding-bottom:1.5rem;font-size:.95rem;line-height:1.72;color:#555;">Raw footage, product photos, UGC clips — whatever you already have. If you have very little, we can source content for you. Most brands are surprised how much they already have to work with.</div>
+    </details>
+    <details style="border-bottom:1px solid #eee;">
+      <summary style="display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;font-size:1rem;font-weight:600;color:#111;gap:1rem;">
+        How quickly will I see results?
+        <span class="faq-icon" style="font-size:1.3rem;color:var(--red);flex-shrink:0;">+</span>
+      </summary>
+      <div style="padding-bottom:1.5rem;font-size:.95rem;line-height:1.72;color:#555;">Most brands see measurable ROAS improvement within 30 days. First batch of ads is delivered within 5–7 business days of onboarding.</div>
+    </details>
+    <details style="border-bottom:1px solid #eee;">
+      <summary style="display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;font-size:1rem;font-weight:600;color:#111;gap:1rem;">
+        Do you manage the ad accounts too?
+        <span class="faq-icon" style="font-size:1.3rem;color:var(--red);flex-shrink:0;">+</span>
+      </summary>
+      <div style="padding-bottom:1.5rem;font-size:.95rem;line-height:1.72;color:#555;">We're a creative production agency — we build and deliver the ads. For paid media management we partner with trusted media buyers or work alongside your existing team.</div>
+    </details>
+    <details style="border-bottom:1px solid #eee;">
+      <summary style="display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;font-size:1rem;font-weight:600;color:#111;gap:1rem;">
+        What platforms do you create ads for?
+        <span class="faq-icon" style="font-size:1.3rem;color:var(--red);flex-shrink:0;">+</span>
+      </summary>
+      <div style="padding-bottom:1.5rem;font-size:.95rem;line-height:1.72;color:#555;">Meta (Facebook/Instagram), TikTok, YouTube, and Snapchat. Each ad is natively formatted — aspect ratios, lengths, and hooks optimised per channel.</div>
+    </details>
+    <details style="border-bottom:1px solid #eee;">
+      <summary style="display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;font-size:1rem;font-weight:600;color:#111;gap:1rem;">
+        Is there a minimum contract length?
+        <span class="faq-icon" style="font-size:1.3rem;color:var(--red);flex-shrink:0;">+</span>
+      </summary>
+      <div style="padding-bottom:1.5rem;font-size:.95rem;line-height:1.72;color:#555;">We ask for a 3-month minimum to allow enough creative cycles to find your winners. After that, rolling monthly — no lock-in, no penalty clauses.</div>
+    </details>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="cta" style="background:var(--black);padding:9rem 2rem;position:relative;overflow:hidden;text-align:center;" class="reveal entropy-section">
+  <div style="position:absolute;bottom:-200px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse at center,rgba(200,50,0,.16) 0%,transparent 65%);pointer-events:none;"></div>
+  <div style="max-width:680px;margin:0 auto;position:relative;z-index:2;">
+    <img src="brand_assets/brand-logo.jpeg" alt="FREEWRLD AI" style="height:80px;width:auto;margin:0 auto 2rem;display:block;">
+    <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--red);margin-bottom:1.5rem;">Ready To Break Free?</p>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5.5rem);color:#fff;line-height:.95;margin-bottom:2rem;">
+      Ready to break free<br>from mediocre ads?
+    </h2>
+    <p style="font-size:1.1rem;line-height:1.72;color:rgba(240,237,232,.55);margin-bottom:2.5rem;max-width:480px;margin-left:auto;margin-right:auto;">
+      Book a free 30-minute strategy call. We'll audit your current creatives, show you what's holding back your ROAS, and map out your first 16 ads.
+    </p>
+    <a href="mailto:hello@freewrldai.com" class="btn-red" style="font-size:1.1rem;padding:1rem 2.5rem;">Book Your Free Strategy Call →</a>
+    <p style="font-size:.8rem;color:rgba(240,237,232,.25);margin-top:1.25rem;">No commitment. No credit card. Just results.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:var(--surface);border-top:1px solid rgba(240,237,232,.06);padding:3rem 2rem;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <img src="brand_assets/brand-logo.jpeg" alt="FREEWRLD AI" style="height:36px;width:auto;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:rgba(240,237,232,.4);letter-spacing:.05em;">FREEWRLD AI</span>
+    </div>
+    <div style="display:flex;gap:2rem;">
+      <a href="#services" style="font-size:.85rem;color:rgba(240,237,232,.35);text-decoration:none;" onmouseover="this.style.color='rgba(240,237,232,.75)'" onmouseout="this.style.color='rgba(240,237,232,.35)'">Services</a>
+      <a href="#process" style="font-size:.85rem;color:rgba(240,237,232,.35);text-decoration:none;" onmouseover="this.style.color='rgba(240,237,232,.75)'" onmouseout="this.style.color='rgba(240,237,232,.35)'">Process</a>
+      <a href="#faq" style="font-size:.85rem;color:rgba(240,237,232,.35);text-decoration:none;" onmouseover="this.style.color='rgba(240,237,232,.75)'" onmouseout="this.style.color='rgba(240,237,232,.35)'">FAQ</a>
+    </div>
+    <p style="font-size:.78rem;color:rgba(240,237,232,.2);">© 2026 FREEWRLD AI. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // Entropy particle background — auto-runs on every .entropy-section
+  (function() {
+    function setupEntropy(section) {
+      var canvas = document.createElement('canvas');
+      canvas.style.cssText = 'position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.5;';
+      section.insertBefore(canvas, section.firstChild);
+
+      // Ensure direct children above canvas have a stacking context
+      Array.from(section.children).forEach(function(child) {
+        if (child === canvas) return;
+        if (!child.style.zIndex) {
+          if (!child.style.position || child.style.position === 'static') {
+            child.style.position = 'relative';
+          }
+          child.style.zIndex = '1';
+        }
+      });
+
+      var animId;
+
+      function init() {
+        if (animId) cancelAnimationFrame(animId);
+        var dpr = window.devicePixelRatio || 1;
+        var W = section.offsetWidth;
+        var H = section.offsetHeight;
+
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+
+        var ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        var spacing = 52;
+
+        function Particle(x, y, ordered) {
+          this.x = x; this.y = y;
+          this.ox = x; this.oy = y;
+          this.sz = 1.5;
+          this.ordered = ordered;
+          this.vx = (Math.random() - 0.5) * 2;
+          this.vy = (Math.random() - 0.5) * 2;
+          this.influence = 0;
+          this.neighbors = [];
+        }
+
+        Particle.prototype.update = function() {
+          if (this.ordered) {
+            var dx = this.ox - this.x, dy = this.oy - this.y;
+            var cx = 0, cy = 0;
+            for (var i = 0; i < this.neighbors.length; i++) {
+              var n = this.neighbors[i];
+              if (!n.ordered) {
+                var d = Math.hypot(this.x - n.x, this.y - n.y);
+                var s = Math.max(0, 1 - d / 100);
+                cx += n.vx * s; cy += n.vy * s;
+                if (s > this.influence) this.influence = s;
+              }
+            }
+            this.x += dx * 0.05 * (1 - this.influence) + cx * this.influence;
+            this.y += dy * 0.05 * (1 - this.influence) + cy * this.influence;
+            this.influence *= 0.99;
+          } else {
+            this.vx += (Math.random() - 0.5) * 0.5;
+            this.vy += (Math.random() - 0.5) * 0.5;
+            this.vx *= 0.95; this.vy *= 0.95;
+            this.x += this.vx; this.y += this.vy;
+            if (this.x < W / 2 || this.x > W) this.vx *= -1;
+            if (this.y < 0 || this.y > H) this.vy *= -1;
+            this.x = Math.max(W / 2, Math.min(W, this.x));
+            this.y = Math.max(0, Math.min(H, this.y));
+          }
+        };
+
+        Particle.prototype.draw = function(c) {
+          var a = this.ordered ? 0.7 - this.influence * 0.4 : 0.7;
+          c.fillStyle = 'rgba(255,255,255,' + a + ')';
+          c.beginPath();
+          c.arc(this.x, this.y, this.sz, 0, Math.PI * 2);
+          c.fill();
+        };
+
+        var particles = [];
+        var cols = Math.ceil(W / spacing);
+        var rows = Math.ceil(H / spacing);
+        for (var i = 0; i <= cols; i++) {
+          for (var j = 0; j <= rows; j++) {
+            var px = spacing * i + spacing / 2;
+            var py = spacing * j + spacing / 2;
+            if (px > W + spacing || py > H + spacing) continue;
+            particles.push(new Particle(px, py, px < W / 2));
+          }
+        }
+
+        function updateNeighbors() {
+          for (var i = 0; i < particles.length; i++) {
+            particles[i].neighbors = [];
+            for (var j = 0; j < particles.length; j++) {
+              if (i !== j && Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y) < 100) {
+                particles[i].neighbors.push(particles[j]);
+              }
+            }
+          }
+        }
+
+        updateNeighbors();
+        var frame = 0;
+
+        function animate() {
+          ctx.clearRect(0, 0, W, H);
+          if (frame % 30 === 0) updateNeighbors();
+
+          for (var i = 0; i < particles.length; i++) {
+            var p = particles[i];
+            p.update();
+            for (var k = 0; k < p.neighbors.length; k++) {
+              var nb = p.neighbors[k];
+              var dist = Math.hypot(p.x - nb.x, p.y - nb.y);
+              if (dist < 55) {
+                ctx.strokeStyle = 'rgba(255,255,255,' + (0.18 * (1 - dist / 55)) + ')';
+                ctx.lineWidth = 0.5;
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(nb.x, nb.y);
+                ctx.stroke();
+              }
+            }
+            p.draw(ctx);
+          }
+
+          ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(W / 2, 0);
+          ctx.lineTo(W / 2, H);
+          ctx.stroke();
+
+          frame++;
+          animId = requestAnimationFrame(animate);
+        }
+
+        animate();
+      }
+
+      init();
+      return init;
+    }
+
+    var inits = [];
+    document.querySelectorAll('.entropy-section').forEach(function(s) {
+      inits.push(setupEntropy(s));
+    });
+
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() { inits.forEach(function(fn) { fn(); }); }, 200);
+    });
+  })();
+</script>
+
+<script>
+  // Scroll-triggered fade-in (non-blocking — sections start visible)
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; observer.unobserve(e.target); } });
+  }, { threshold: 0.04 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('details').forEach(d => {
+    d.addEventListener('toggle', () => {
+      const icon = d.querySelector('.faq-icon');
+      if (icon) icon.textContent = d.open ? '−' : '+';
+    });
+  });
+</script>
+</body>
+</html>

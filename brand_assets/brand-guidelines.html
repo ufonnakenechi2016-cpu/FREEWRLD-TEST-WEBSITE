@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FREEWRLD AI — Brand Guidelines</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'fw-red':      '#C83200',
+            'fw-black':    '#080808',
+            'fw-surface':  '#161616',
+            'fw-elevated': '#252525',
+            'fw-bone':     '#F0EDE8',
+            'fw-gold':     '#D4A843',
+            'fw-silver':   '#8C8C8C',
+          },
+          fontFamily: {
+            display: ['"Bebas Neue"', 'sans-serif'],
+            body:    ['"Space Grotesk"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red:     #C83200;
+      --red-glow: rgba(200,50,0,0.35);
+      --black:   #080808;
+      --surface: #161616;
+      --raised:  #202020;
+      --float:   #2A2A2A;
+      --bone:    #F0EDE8;
+      --gold:    #D4A843;
+      --silver:  #8C8C8C;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--bone);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .d { font-family: 'Bebas Neue', sans-serif; }
+
+    /* Scroll reveal — starts hidden only after JS marks body ready */
+    body.js-ready .rev {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.5s cubic-bezier(0.34,1.56,0.64,1),
+                  transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    body.js-ready .rev.on { opacity: 1; transform: translateY(0); }
+
+    /* Chain divider */
+    .chain {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 5rem 0;
+    }
+    .chain-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red) 60%, transparent);
+      opacity: 0.35;
+    }
+    .chain-burst { display: flex; align-items: center; gap: 5px; }
+    .chain-burst span { display: block; background: var(--red); border-radius: 50%; }
+    .chain-burst span:nth-child(1),
+    .chain-burst span:nth-child(5) { width:3px; height:3px; opacity:.4; }
+    .chain-burst span:nth-child(2),
+    .chain-burst span:nth-child(4) { width:5px; height:5px; opacity:.7; }
+    .chain-burst span:nth-child(3) { width:9px; height:9px; opacity:1; }
+
+    /* Labels */
+    .lbl {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    /* Badges */
+    .do-b {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(212,168,67,.1); border: 1px solid rgba(212,168,67,.3);
+      color: var(--gold); font-size: 11px; font-weight: 700;
+      letter-spacing: .15em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 2px;
+    }
+    .no-b {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(200,50,0,.12); border: 1px solid rgba(200,50,0,.3);
+      color: var(--red); font-size: 11px; font-weight: 700;
+      letter-spacing: .15em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 2px;
+    }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,.06);
+      box-shadow: 0 1px 3px rgba(0,0,0,.5), 0 6px 18px rgba(0,0,0,.4), 0 18px 40px rgba(0,0,0,.25);
+    }
+
+    /* Nav dots */
+    .ndot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(240,237,232,.25);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .ndot:hover  { background: var(--red); transform: scale(1.5); }
+    .ndot:active { transform: scale(0.85); }
+    .ndot.act    { background: var(--red); transform: scale(1.5); }
+
+    /* Swatch shadow */
+    .sw-shadow {
+      box-shadow: 0 2px 4px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.4), 0 20px 48px rgba(0,0,0,.25);
+    }
+
+    @keyframes glow-pulse {
+      0%,100% { opacity: .07; }
+      50%      { opacity: .18; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar nav -->
+  <nav style="position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:10px;">
+    <div class="ndot act"  onclick="go('hero')"   title="Cover"></div>
+    <div class="ndot"      onclick="go('overview')" title="Philosophy"></div>
+    <div class="ndot"      onclick="go('logo')"    title="Logo"></div>
+    <div class="ndot"      onclick="go('colors')"  title="Colors"></div>
+    <div class="ndot"      onclick="go('type')"    title="Typography"></div>
+    <div class="ndot"      onclick="go('voice')"   title="Voice"></div>
+    <div class="ndot"      onclick="go('imagery')" title="Imagery"></div>
+    <div class="ndot"      onclick="go('donts')"   title="Don'ts"></div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════════ -->
+  <section id="hero" style="min-height:100vh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:2rem;text-align:center;">
+
+    <!-- Ambient glows -->
+    <div style="position:absolute;width:700px;height:700px;border-radius:50%;background:var(--red);filter:blur(100px);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.06;animation:glow-pulse 5s ease-in-out infinite;pointer-events:none;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:var(--gold);filter:blur(80px);top:25%;right:10%;opacity:.04;animation:glow-pulse 7s ease-in-out infinite 2s;pointer-events:none;"></div>
+
+    <!-- Logo -->
+    <div style="position:relative;margin-bottom:2.5rem;display:inline-block;">
+      <!-- Spotlight glow -->
+      <div style="position:absolute;inset:-40px;background:radial-gradient(ellipse at center,rgba(200,50,0,0.22) 0%,transparent 68%);pointer-events:none;"></div>
+      <!-- Lifted surface to make the dark logo visible -->
+      <div style="background:#111111;border:1px solid rgba(200,50,0,0.2);border-radius:6px;padding:1.5rem;position:relative;
+                  box-shadow:0 0 0 1px rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.7), 0 0 60px rgba(200,50,0,0.15);">
+        <img src="/brand_assets/brand-logo.jpeg" alt="FREEWRLD AI"
+          style="width:min(340px,55vw);max-height:38vh;object-fit:contain;display:block;">
+      </div>
+    </div>
+
+    <!-- Wordmark -->
+    <h1 class="d" style="font-size:clamp(3.5rem,10vw,8.5rem);line-height:0.95;letter-spacing:.06em;position:relative;">
+      FREEWRLD <span style="color:var(--red);">AI</span>
+    </h1>
+    <p style="font-size:11px;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--silver);margin-top:1rem;position:relative;">Advertisement Agency</p>
+
+    <!-- Rule -->
+    <div style="width:64px;height:2px;background:var(--red);margin:1.75rem auto;opacity:.7;position:relative;"></div>
+
+    <p style="font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(140,140,140,.6);position:relative;">Brand Guidelines &nbsp;·&nbsp; v1.0 &nbsp;·&nbsp; 2026</p>
+
+    <!-- Scroll cue -->
+    <div style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.35;">
+      <span style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;">Scroll</span>
+      <div style="width:1px;height:40px;background:linear-gradient(to bottom,var(--red),transparent);"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN
+  ════════════════════════════════════════════ -->
+  <main style="max-width:1100px;margin:0 auto;padding:0 clamp(1rem,4vw,3rem) 8rem;">
+
+    <!-- ── 01 PHILOSOPHY ── -->
+    <section id="overview" style="padding-top:7rem;">
+      <div class="rev">
+        <div class="lbl" style="margin-bottom:1rem;">01 — Brand Philosophy</div>
+        <h2 class="d" style="font-size:clamp(2.4rem,5vw,4.5rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:2rem;">
+          Built on Liberation.<br>Powered by Intelligence.
+        </h2>
+        <p style="max-width:660px;font-size:1.1rem;color:rgba(240,237,232,.78);line-height:1.85;margin-bottom:1.25rem;">
+          FREEWRLD AI is an advertising agency that refuses to be contained. We exist at the intersection of cultural authenticity and artificial intelligence — breaking the chains of conventional advertising to build campaigns that move people.
+        </p>
+        <p style="max-width:660px;font-size:1.1rem;color:rgba(240,237,232,.78);line-height:1.85;">
+          Everything we create carries the energy of the chain-break: from mediocrity, from templates, from the predictable.
+        </p>
+      </div>
+
+      <!-- Values -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-top:3.5rem;">
+        <div class="rev card" style="padding:1.75rem;border-top:2px solid var(--red);">
+          <div class="d" style="font-size:1.9rem;color:var(--red);margin-bottom:.5rem;">LIBERATION</div>
+          <p style="font-size:14px;color:var(--silver);line-height:1.65;">Breaking constraints is our origin story. Every campaign carries the energy of the chain-break.</p>
+        </div>
+        <div class="rev card" style="padding:1.75rem;border-top:2px solid var(--gold);">
+          <div class="d" style="font-size:1.9rem;color:var(--gold);margin-bottom:.5rem;">BOLD</div>
+          <p style="font-size:14px;color:var(--silver);line-height:1.65;">We don't whisper. Fearlessness is non-negotiable — in design, in strategy, in execution.</p>
+        </div>
+        <div class="rev card" style="padding:1.75rem;border-top:2px solid rgba(140,140,140,.6);">
+          <div class="d" style="font-size:1.9rem;color:var(--silver);margin-bottom:.5rem;">AUTHENTIC</div>
+          <p style="font-size:14px;color:var(--silver);line-height:1.65;">AI amplifies human truth — it doesn't replace it. We use intelligence to surface what's real.</p>
+        </div>
+        <div class="rev card" style="padding:1.75rem;border-top:2px solid rgba(240,237,232,.4);">
+          <div class="d" style="font-size:1.9rem;color:var(--bone);margin-bottom:.5rem;">FORWARD</div>
+          <p style="font-size:14px;color:var(--silver);line-height:1.65;">We operate at the frontier. The technology changes — our commitment to pushing limits doesn't.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="chain rev"><div class="chain-line"></div><div class="chain-burst"><span></span><span></span><span></span><span></span><span></span></div><div class="chain-line"></div></div>
+
+    <!-- ── 02 LOGO ── -->
+    <section id="logo">
+      <div class="rev">
+        <div class="lbl" style="margin-bottom:1rem;">02 — Logo</div>
+        <h2 class="d" style="font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:3rem;">The Symbol of Breaking Free</h2>
+      </div>
+
+      <!-- Primary uses -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2.5rem;">
+        <div class="rev">
+          <div style="background:#080808;border:1px solid rgba(255,255,255,.06);padding:3rem;display:flex;align-items:center;justify-content:center;min-height:240px;position:relative;border-radius:3px;">
+            <span class="do-b" style="position:absolute;top:1rem;left:1rem;">✓ Primary</span>
+            <img src="/brand_assets/brand-logo.jpeg" alt="Logo on black" style="width:180px;height:auto;">
+          </div>
+          <p style="font-size:13px;color:var(--silver);margin-top:.6rem;">On Void Black (#080808) — always preferred</p>
+        </div>
+        <div class="rev">
+          <div style="background:#161616;border:1px solid rgba(255,255,255,.06);padding:3rem;display:flex;align-items:center;justify-content:center;min-height:240px;position:relative;border-radius:3px;">
+            <span class="do-b" style="position:absolute;top:1rem;left:1rem;">✓ Approved</span>
+            <img src="/brand_assets/brand-logo.jpeg" alt="Logo on surface" style="width:180px;height:auto;">
+          </div>
+          <p style="font-size:13px;color:var(--silver);margin-top:.6rem;">On Surface (#161616) — dark panels only</p>
+        </div>
+      </div>
+
+      <!-- Clear space + min size -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2.5rem;">
+        <div class="rev card" style="padding:1.75rem;">
+          <div class="d" style="font-size:1.2rem;color:var(--gold);margin-bottom:.75rem;">CLEAR SPACE</div>
+          <p style="font-size:14px;color:var(--silver);line-height:1.65;margin-bottom:1.25rem;">Maintain clear space equal to the cap-height of the "W" on all four sides. Never crowd the mark.</p>
+          <div style="border:1px dashed rgba(212,168,67,.3);padding:1.5rem;display:flex;align-items:center;justify-content:center;border-radius:2px;">
+            <div style="border:2px dashed rgba(212,168,67,.45);padding:.75rem;position:relative;">
+              <div style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--surface);padding:0 6px;font-size:10px;color:var(--gold);white-space:nowrap;">≥ W height</div>
+              <img src="/brand_assets/brand-logo.jpeg" alt="clearspace" style="width:88px;height:auto;opacity:.85;">
+            </div>
+          </div>
+        </div>
+        <div class="rev card" style="padding:1.75rem;">
+          <div class="d" style="font-size:1.2rem;color:var(--gold);margin-bottom:.75rem;">MINIMUM SIZE</div>
+          <p style="font-size:14px;color:var(--silver);line-height:1.65;margin-bottom:1.25rem;">Never reproduce below 80px (digital) or 25mm (print). Detail collapses at smaller sizes.</p>
+          <div style="display:flex;align-items:flex-end;gap:2.5rem;padding-top:.5rem;">
+            <div style="text-align:center;">
+              <img src="/brand_assets/brand-logo.jpeg" alt="min digital" style="width:80px;height:auto;display:block;margin:0 auto .5rem;">
+              <div style="font-size:11px;color:var(--silver);">80px min — digital</div>
+            </div>
+            <div style="text-align:center;">
+              <img src="/brand_assets/brand-logo.jpeg" alt="too small" style="width:44px;height:auto;display:block;margin:0 auto .5rem;opacity:.4;">
+              <div style="font-size:11px;color:rgba(140,140,140,.45);">44px — too small</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Don'ts -->
+      <div class="rev">
+        <div class="d" style="font-size:1.5rem;margin-bottom:1.25rem;">LOGO DON'TS</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+          <div style="background:#fff;border-radius:3px;overflow:hidden;padding:1.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;min-height:150px;position:relative;">
+            <span class="no-b" style="position:absolute;top:.75rem;left:.75rem;">✕</span>
+            <img src="/brand_assets/brand-logo.jpeg" alt="on white" style="width:88px;height:auto;margin-top:1.5rem;">
+            <p style="font-size:11px;color:#555;text-align:center;">Never on white / light bg</p>
+          </div>
+          <div style="background:var(--surface);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;min-height:150px;position:relative;">
+            <span class="no-b" style="position:absolute;top:.75rem;left:.75rem;">✕</span>
+            <img src="/brand_assets/brand-logo.jpeg" alt="stretched" style="width:130px;height:48px;object-fit:fill;margin-top:1.5rem;">
+            <p style="font-size:11px;color:var(--silver);text-align:center;">Never stretch or distort</p>
+          </div>
+          <div style="background:var(--surface);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;min-height:150px;position:relative;">
+            <span class="no-b" style="position:absolute;top:.75rem;left:.75rem;">✕</span>
+            <img src="/brand_assets/brand-logo.jpeg" alt="recolored" style="width:88px;height:auto;margin-top:1.5rem;filter:hue-rotate(160deg);">
+            <p style="font-size:11px;color:var(--silver);text-align:center;">Never recolor</p>
+          </div>
+          <div style="background:var(--surface);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;min-height:150px;position:relative;">
+            <span class="no-b" style="position:absolute;top:.75rem;left:.75rem;">✕</span>
+            <img src="/brand_assets/brand-logo.jpeg" alt="faded" style="width:88px;height:auto;margin-top:1.5rem;opacity:.18;">
+            <p style="font-size:11px;color:var(--silver);text-align:center;">Never below 70% opacity</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="chain rev"><div class="chain-line"></div><div class="chain-burst"><span></span><span></span><span></span><span></span><span></span></div><div class="chain-line"></div></div>
+
+    <!-- ── 03 COLORS ── -->
+    <section id="colors">
+      <div class="rev">
+        <div class="lbl" style="margin-bottom:1rem;">03 — Color System</div>
+        <h2 class="d" style="font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:.75rem;">The Palette of Power</h2>
+        <p style="max-width:580px;color:rgba(240,237,232,.7);line-height:1.8;margin-bottom:3rem;">Derived directly from the brand mark. Every color carries meaning — use them with intention, never decoratively.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1.25rem;margin-bottom:2rem;">
+
+        <!-- FREEWRLD Red -->
+        <div class="rev sw-shadow" style="border-radius:3px;overflow:hidden;">
+          <div style="height:130px;background:#C83200;position:relative;">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 30%,rgba(255,255,255,.12),transparent 65%);"></div>
+            <span style="position:absolute;bottom:.6rem;right:.6rem;font-size:10px;background:rgba(0,0,0,.4);padding:2px 7px;border-radius:2px;letter-spacing:.08em;">#C83200</span>
+          </div>
+          <div class="card" style="padding:1.1rem;border-top:none;">
+            <div class="d" style="font-size:1rem;margin-bottom:.4rem;">FREEWRLD RED</div>
+            <div style="font-size:12px;color:var(--silver);line-height:1.85;">
+              <div>RGB &nbsp;<span style="color:var(--bone);">200 / 50 / 0</span></div>
+              <div>CMYK <span style="color:var(--bone);">0 / 75 / 100 / 22</span></div>
+              <div>PMS &nbsp;<span style="color:var(--bone);">1665 C</span></div>
+            </div>
+            <p style="font-size:12px;color:var(--silver);margin-top:.6rem;line-height:1.6;">Primary brand color. Headlines, CTAs, key accents only.</p>
+          </div>
+        </div>
+
+        <!-- Void Black -->
+        <div class="rev sw-shadow" style="border-radius:3px;overflow:hidden;">
+          <div style="height:130px;background:#080808;border:1px solid rgba(255,255,255,.07);position:relative;">
+            <span style="position:absolute;bottom:.6rem;right:.6rem;font-size:10px;background:rgba(255,255,255,.08);padding:2px 7px;border-radius:2px;letter-spacing:.08em;">#080808</span>
+          </div>
+          <div class="card" style="padding:1.1rem;border-top:none;">
+            <div class="d" style="font-size:1rem;margin-bottom:.4rem;">VOID BLACK</div>
+            <div style="font-size:12px;color:var(--silver);line-height:1.85;">
+              <div>RGB &nbsp;<span style="color:var(--bone);">8 / 8 / 8</span></div>
+              <div>CMYK <span style="color:var(--bone);">0 / 0 / 0 / 97</span></div>
+              <div>PMS &nbsp;<span style="color:var(--bone);">Black 6 C</span></div>
+            </div>
+            <p style="font-size:12px;color:var(--silver);margin-top:.6rem;line-height:1.6;">Default page background. Foundation of all brand environments.</p>
+          </div>
+        </div>
+
+        <!-- Bone White -->
+        <div class="rev sw-shadow" style="border-radius:3px;overflow:hidden;">
+          <div style="height:130px;background:#F0EDE8;position:relative;">
+            <span style="position:absolute;bottom:.6rem;right:.6rem;font-size:10px;background:rgba(0,0,0,.15);padding:2px 7px;border-radius:2px;color:#333;letter-spacing:.08em;">#F0EDE8</span>
+          </div>
+          <div class="card" style="padding:1.1rem;border-top:none;">
+            <div class="d" style="font-size:1rem;margin-bottom:.4rem;">BONE WHITE</div>
+            <div style="font-size:12px;color:var(--silver);line-height:1.85;">
+              <div>RGB &nbsp;<span style="color:var(--bone);">240 / 237 / 232</span></div>
+              <div>CMYK <span style="color:var(--bone);">0 / 1 / 3 / 6</span></div>
+              <div>PMS &nbsp;<span style="color:var(--bone);">9180 C</span></div>
+            </div>
+            <p style="font-size:12px;color:var(--silver);margin-top:.6rem;line-height:1.6;">Primary text. Always warm white — never pure #FFFFFF.</p>
+          </div>
+        </div>
+
+        <!-- Liberation Gold -->
+        <div class="rev sw-shadow" style="border-radius:3px;overflow:hidden;">
+          <div style="height:130px;background:#D4A843;position:relative;">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 25%,rgba(255,255,255,.18),transparent 60%);"></div>
+            <span style="position:absolute;bottom:.6rem;right:.6rem;font-size:10px;background:rgba(0,0,0,.25);padding:2px 7px;border-radius:2px;color:#1a1a1a;letter-spacing:.08em;">#D4A843</span>
+          </div>
+          <div class="card" style="padding:1.1rem;border-top:none;">
+            <div class="d" style="font-size:1rem;margin-bottom:.4rem;">LIBERATION GOLD</div>
+            <div style="font-size:12px;color:var(--silver);line-height:1.85;">
+              <div>RGB &nbsp;<span style="color:var(--bone);">212 / 168 / 67</span></div>
+              <div>CMYK <span style="color:var(--bone);">0 / 21 / 68 / 17</span></div>
+              <div>PMS &nbsp;<span style="color:var(--bone);">7561 C</span></div>
+            </div>
+            <p style="font-size:12px;color:var(--silver);margin-top:.6rem;line-height:1.6;">Premium accent. Awards, highlights, elevated contexts only.</p>
+          </div>
+        </div>
+
+        <!-- Chain Silver -->
+        <div class="rev sw-shadow" style="border-radius:3px;overflow:hidden;">
+          <div style="height:130px;background:#8C8C8C;position:relative;">
+            <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);"></div>
+            <span style="position:absolute;bottom:.6rem;right:.6rem;font-size:10px;background:rgba(0,0,0,.2);padding:2px 7px;border-radius:2px;letter-spacing:.08em;">#8C8C8C</span>
+          </div>
+          <div class="card" style="padding:1.1rem;border-top:none;">
+            <div class="d" style="font-size:1rem;margin-bottom:.4rem;">CHAIN SILVER</div>
+            <div style="font-size:12px;color:var(--silver);line-height:1.85;">
+              <div>RGB &nbsp;<span style="color:var(--bone);">140 / 140 / 140</span></div>
+              <div>CMYK <span style="color:var(--bone);">0 / 0 / 0 / 45</span></div>
+              <div>PMS &nbsp;<span style="color:var(--bone);">Cool Gray 8 C</span></div>
+            </div>
+            <p style="font-size:12px;color:var(--silver);margin-top:.6rem;line-height:1.6;">Body text, captions, secondary UI. Strength before the break.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Usage rules -->
+      <div class="rev card" style="padding:2rem;border-left:3px solid var(--red);">
+        <div class="d" style="font-size:1.3rem;margin-bottom:1.25rem;">COLOR USAGE RULES</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+          <div>
+            <div class="do-b" style="margin-bottom:.75rem;">✓ Do</div>
+            <ul style="font-size:14px;color:var(--silver);line-height:2;padding-left:1.1rem;">
+              <li>Use Void Black as the dominant background (80%+)</li>
+              <li>Reserve FREEWRLD Red for headlines and key moments</li>
+              <li>Use Liberation Gold only in premium contexts</li>
+              <li>Keep text in Bone White, not pure #FFFFFF</li>
+              <li>Pair Red with Black — never with competing hues</li>
+            </ul>
+          </div>
+          <div>
+            <div class="no-b" style="margin-bottom:.75rem;">✕ Don't</div>
+            <ul style="font-size:14px;color:var(--silver);line-height:2;padding-left:1.1rem;">
+              <li>Use the brand on white or light backgrounds</li>
+              <li>Use FREEWRLD Red as a large background fill</li>
+              <li>Mix warm and cool accent colors in one layout</li>
+              <li>Introduce colors outside this system</li>
+              <li>Use default Tailwind blue/indigo/purple</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="chain rev"><div class="chain-line"></div><div class="chain-burst"><span></span><span></span><span></span><span></span><span></span></div><div class="chain-line"></div></div>
+
+    <!-- ── 04 TYPOGRAPHY ── -->
+    <section id="type">
+      <div class="rev">
+        <div class="lbl" style="margin-bottom:1rem;">04 — Typography</div>
+        <h2 class="d" style="font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:3rem;">Words That Command Attention</h2>
+      </div>
+
+      <!-- Display -->
+      <div class="rev" style="margin-bottom:2.5rem;">
+        <div style="border-left:3px solid var(--red);padding-left:1.5rem;margin-bottom:1.5rem;">
+          <div class="lbl" style="margin-bottom:.4rem;">Display / Headlines</div>
+          <div class="d" style="font-size:clamp(3rem,8vw,6rem);line-height:1;color:var(--bone);">Bebas Neue</div>
+          <div class="d" style="font-size:1.15rem;color:var(--red);margin-top:.2rem;letter-spacing:.08em;">ABCDEFGHIJKLMNOPQRSTUVWXYZ &nbsp; 0123456789</div>
+        </div>
+        <div class="card" style="padding:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div>
+            <div style="font-size:11px;color:var(--silver);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;">Usage</div>
+            <p style="font-size:14px;color:rgba(240,237,232,.8);line-height:1.75;">Page titles, section headers, pull quotes, campaign headlines. Always uppercase. Never body copy.</p>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--silver);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;">Size Scale</div>
+            <div style="line-height:1.2;">
+              <div class="d" style="font-size:3.2rem;color:var(--bone);">Hero: 72–96px</div>
+              <div class="d" style="font-size:2.2rem;color:var(--bone);">H1: 48–64px</div>
+              <div class="d" style="font-size:1.6rem;color:var(--bone);">H2: 36–48px</div>
+              <div class="d" style="font-size:1.15rem;color:var(--bone);">H3: 24–32px</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="rev">
+        <div style="border-left:3px solid var(--gold);padding-left:1.5rem;margin-bottom:1.5rem;">
+          <div class="lbl" style="margin-bottom:.4rem;color:var(--gold);">Body / UI</div>
+          <div style="font-size:clamp(1.5rem,4vw,3rem);font-weight:300;line-height:1.2;color:var(--bone);">Space Grotesk</div>
+          <div style="font-size:14px;color:var(--silver);margin-top:.4rem;">abcdefghijklmnopqrstuvwxyz &nbsp; ABCDEFGHIJKLMNOPQRSTUVWXYZ &nbsp; 0123456789 !@#$%&amp;</div>
+        </div>
+        <div class="card" style="padding:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div>
+            <div style="font-size:11px;color:var(--silver);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;">Weights</div>
+            <div style="font-size:15px;color:rgba(240,237,232,.85);line-height:2.3;">
+              <div style="font-weight:300;">Light 300 — captions, metadata</div>
+              <div style="font-weight:400;">Regular 400 — body copy</div>
+              <div style="font-weight:500;">Medium 500 — UI labels, nav</div>
+              <div style="font-weight:600;">SemiBold 600 — callouts</div>
+              <div style="font-weight:700;">Bold 700 — data, stats, key figures</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--silver);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;">Rules</div>
+            <ul style="font-size:14px;color:rgba(240,237,232,.8);line-height:2;padding-left:1.1rem;">
+              <li>Body line-height: 1.7 minimum</li>
+              <li>Max measure: 70 characters per line</li>
+              <li>Minimum body size: 15px</li>
+              <li>Captions: 12–13px, weight 300</li>
+              <li>Never Bebas Neue below 20px</li>
+              <li>Never Inter, Roboto, or Arial</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="chain rev"><div class="chain-line"></div><div class="chain-burst"><span></span><span></span><span></span><span></span><span></span></div><div class="chain-line"></div></div>
+
+    <!-- ── 05 VOICE ── -->
+    <section id="voice">
+      <div class="rev">
+        <div class="lbl" style="margin-bottom:1rem;">05 — Voice &amp; Tone</div>
+        <h2 class="d" style="font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:.75rem;">How FREEWRLD AI Speaks</h2>
+        <p style="max-width:580px;color:rgba(240,237,232,.7);line-height:1.8;margin-bottom:3rem;">Our voice is the written equivalent of the chain breaking. It doesn't ask for attention — it takes it.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2.5rem;">
+        <div class="rev card" style="padding:2rem;">
+          <div class="d" style="font-size:1.4rem;color:var(--red);margin-bottom:1.25rem;">WE ARE</div>
+          <div style="display:flex;flex-direction:column;gap:.9rem;">
+            <div style="display:flex;gap:.75rem;align-items:flex-start;">
+              <div style="width:3px;height:3px;border-radius:50%;background:var(--red);margin-top:.6rem;flex-shrink:0;"></div>
+              <div><strong style="color:var(--bone);">Direct.</strong> <span style="color:var(--silver);">We say exactly what we mean. No filler, no hedging, no softening.</span></div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start;">
+              <div style="width:3px;height:3px;border-radius:50%;background:var(--red);margin-top:.6rem;flex-shrink:0;"></div>
+              <div><strong style="color:var(--bone);">Unapologetic.</strong> <span style="color:var(--silver);">Bold decisions don't need qualifiers. We stand behind every choice.</span></div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start;">
+              <div style="width:3px;height:3px;border-radius:50%;background:var(--red);margin-top:.6rem;flex-shrink:0;"></div>
+              <div><strong style="color:var(--bone);">Visionary.</strong> <span style="color:var(--silver);">We speak about the future we're building, not the present we're managing.</span></div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start;">
+              <div style="width:3px;height:3px;border-radius:50%;background:var(--red);margin-top:.6rem;flex-shrink:0;"></div>
+              <div><strong style="color:var(--bone);">Culturally grounded.</strong> <span style="color:var(--silver);">We speak to people, not demographics. Real language, real energy.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rev card" style="padding:2rem;">
+          <div class="d" style="font-size:1.4rem;color:var(--silver);margin-bottom:1.25rem;">WE ARE NOT</div>
+          <div style="display:flex;flex-direction:column;gap:.9rem;">
+            <div style="display:flex;gap:.75rem;align-items:flex-start;">
+              <div style="width:3px;height:3px;border-radius:50%;background:var(--silver);margin-top:.6rem;flex-shrink:0;"></div>
+              <div><strong style="color:var(--bone);">Corporate.</strong> <span style="color:var(--silver);">No buzzword salads. No "leverage synergies." No empty business speak.</span></div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start;">
+              <div style="width:3px;height:3px;border-radius:50%;background:var(--silver);margin-top:.6rem;flex-shrink:0;"></div>
+              <div><strong style="color:var(--bone);">Apologetic.</strong> <span style="color:var(--silver);">We don't soften bold positions or over-qualify strong statements.</span></div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start;">
+              <div style="width:3px;height:3px;border-radius:50%;background:var(--silver);margin-top:.6rem;flex-shrink:0;"></div>
+              <div><strong style="color:var(--bone);">Hype-first.</strong> <span style="color:var(--silver);">Energy comes from substance — not exclamation points and caps lock.</span></div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start;">
+              <div style="width:3px;height:3px;border-radius:50%;background:var(--silver);margin-top:.6rem;flex-shrink:0;"></div>
+              <div><strong style="color:var(--bone);">Performative.</strong> <span style="color:var(--silver);">The liberation theme is genuine — it's not a marketing angle. Don't exploit it.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copy examples -->
+      <div class="rev" style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
+        <div class="card" style="padding:1.75rem;border-top:2px solid var(--gold);">
+          <div class="do-b" style="margin-bottom:1.25rem;">✓ This is FREEWRLD</div>
+          <div class="d" style="font-size:1.15rem;color:var(--bone);line-height:1.5;margin-bottom:.9rem;">"We don't run ads. We shift culture."</div>
+          <div class="d" style="font-size:1.15rem;color:var(--bone);line-height:1.5;margin-bottom:.9rem;">"Your story. Our AI. The world's attention."</div>
+          <div class="d" style="font-size:1.15rem;color:var(--bone);line-height:1.5;">"Built different. By design."</div>
+        </div>
+        <div class="card" style="padding:1.75rem;border-top:2px solid var(--red);">
+          <div class="no-b" style="margin-bottom:1.25rem;">✕ Not FREEWRLD</div>
+          <div style="font-size:14px;color:var(--silver);line-height:1.75;margin-bottom:.75rem;opacity:.55;text-decoration:line-through;">"We leverage cutting-edge AI solutions to optimize advertising ROI."</div>
+          <div style="font-size:14px;color:var(--silver);line-height:1.75;margin-bottom:.75rem;opacity:.55;text-decoration:line-through;">"Empowering brands with innovative, data-driven strategies."</div>
+          <div style="font-size:14px;color:var(--silver);line-height:1.75;opacity:.55;text-decoration:line-through;">"Your trusted partner in digital transformation!"</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="chain rev"><div class="chain-line"></div><div class="chain-burst"><span></span><span></span><span></span><span></span><span></span></div><div class="chain-line"></div></div>
+
+    <!-- ── 06 IMAGERY ── -->
+    <section id="imagery">
+      <div class="rev">
+        <div class="lbl" style="margin-bottom:1rem;">06 — Imagery &amp; Visual Language</div>
+        <h2 class="d" style="font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:.75rem;">Visual Standards</h2>
+        <p style="max-width:580px;color:rgba(240,237,232,.7);line-height:1.8;margin-bottom:3rem;">Every image reinforces the brand's energy. Bold. Real. High contrast. Culturally authentic.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem;">
+        <div class="rev card" style="padding:1.75rem;">
+          <div class="d" style="font-size:1.2rem;color:var(--gold);margin-bottom:1rem;">PHOTOGRAPHY</div>
+          <ul style="font-size:14px;color:var(--silver);line-height:2;padding-left:1.1rem;">
+            <li>Dark, moody backgrounds — never bright studio white</li>
+            <li>High contrast: deep shadows, sharp highlights</li>
+            <li>Real people, real moments — no stock smile poses</li>
+            <li>Warm color treatment preferred (red/gold tones)</li>
+            <li>Always apply gradient overlay to images</li>
+            <li>Optional brand tint via <code style="font-size:11px;background:rgba(255,255,255,.07);padding:1px 5px;border-radius:2px;color:var(--red);">mix-blend-mode: multiply</code></li>
+          </ul>
+        </div>
+        <div class="rev card" style="padding:1.75rem;">
+          <div class="d" style="font-size:1.2rem;color:var(--gold);margin-bottom:1rem;">ILLUSTRATION</div>
+          <ul style="font-size:14px;color:var(--silver);line-height:2;padding-left:1.1rem;">
+            <li>Bold, simplified forms — not overly detailed</li>
+            <li>Brand palette only: Red, Gold, Silver, Black</li>
+            <li>Chain, fist, and break motifs are ownable brand language</li>
+            <li>Geometric shapes over organic blobs</li>
+            <li>Grain / texture overlays — avoid flat digital look</li>
+            <li>No clip art, no generic vector stock</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Image treatment -->
+      <div class="rev" style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
+        <div>
+          <div style="position:relative;overflow:hidden;border-radius:3px;height:220px;background:#1a1a1a;">
+            <img src="https://placehold.co/600x440/1a1a1a/333?text= " alt="untreated" style="width:100%;height:100%;object-fit:cover;">
+            <span class="no-b" style="position:absolute;top:.75rem;left:.75rem;">✕ No treatment</span>
+          </div>
+          <p style="font-size:13px;color:var(--silver);margin-top:.6rem;">Flat. No brand alignment.</p>
+        </div>
+        <div>
+          <div style="position:relative;overflow:hidden;border-radius:3px;height:220px;background:#0d0d0d;">
+            <img src="https://placehold.co/600x440/0a0a0a/1a1a1a?text= " alt="treated" style="width:100%;height:100%;object-fit:cover;">
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,.88) 0%,rgba(200,50,0,.12) 50%,transparent 100%);"></div>
+            <div style="position:absolute;inset:0;background:rgba(200,50,0,.07);mix-blend-mode:multiply;"></div>
+            <span class="do-b" style="position:absolute;top:.75rem;left:.75rem;">✓ Brand treated</span>
+            <div style="position:absolute;bottom:1rem;left:1rem;right:1rem;">
+              <div class="d" style="font-size:1rem;color:var(--bone);">Dark bg + gradient overlay + brand tint</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--silver);margin-top:.6rem;">Brand-aligned: dark, tinted, intentional.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="chain rev"><div class="chain-line"></div><div class="chain-burst"><span></span><span></span><span></span><span></span><span></span></div><div class="chain-line"></div></div>
+
+    <!-- ── 07 DON'TS ── -->
+    <section id="donts" style="padding-bottom:4rem;">
+      <div class="rev">
+        <div class="lbl" style="margin-bottom:1rem;">07 — Brand Don'ts</div>
+        <h2 class="d" style="font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:.75rem;">What Breaks the Brand</h2>
+        <p style="max-width:580px;color:rgba(240,237,232,.7);line-height:1.8;margin-bottom:3rem;">Non-negotiable. Breaking any of these dilutes the identity every single time.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;" class="rev">
+        <div class="card" style="padding:1.5rem;border:1px solid rgba(200,50,0,.14);display:flex;gap:1rem;align-items:flex-start;">
+          <div class="d" style="font-size:2.5rem;color:var(--red);line-height:1;flex-shrink:0;">01</div>
+          <div><strong style="color:var(--bone);">Never use the brand on a light background.</strong><br><span style="font-size:13px;color:var(--silver);">FREEWRLD AI is a dark-world brand. Light contexts destroy the identity.</span></div>
+        </div>
+        <div class="card" style="padding:1.5rem;border:1px solid rgba(200,50,0,.14);display:flex;gap:1rem;align-items:flex-start;">
+          <div class="d" style="font-size:2.5rem;color:var(--red);line-height:1;flex-shrink:0;">02</div>
+          <div><strong style="color:var(--bone);">Never dilute the liberation imagery.</strong><br><span style="font-size:13px;color:var(--silver);">Don't use the chain/fist motif ironically, casually, or in trivial contexts.</span></div>
+        </div>
+        <div class="card" style="padding:1.5rem;border:1px solid rgba(200,50,0,.14);display:flex;gap:1rem;align-items:flex-start;">
+          <div class="d" style="font-size:2.5rem;color:var(--red);line-height:1;flex-shrink:0;">03</div>
+          <div><strong style="color:var(--bone);">Never use off-brand fonts.</strong><br><span style="font-size:13px;color:var(--silver);">Inter, Roboto, Arial — all banned. Typography is identity.</span></div>
+        </div>
+        <div class="card" style="padding:1.5rem;border:1px solid rgba(200,50,0,.14);display:flex;gap:1rem;align-items:flex-start;">
+          <div class="d" style="font-size:2.5rem;color:var(--red);line-height:1;flex-shrink:0;">04</div>
+          <div><strong style="color:var(--bone);">Never introduce off-brand colors.</strong><br><span style="font-size:13px;color:var(--silver);">No blues, greens, purples. The color system is closed.</span></div>
+        </div>
+        <div class="card" style="padding:1.5rem;border:1px solid rgba(200,50,0,.14);display:flex;gap:1rem;align-items:flex-start;">
+          <div class="d" style="font-size:2.5rem;color:var(--red);line-height:1;flex-shrink:0;">05</div>
+          <div><strong style="color:var(--bone);">Never write in corporate voice.</strong><br><span style="font-size:13px;color:var(--silver);">FREEWRLD AI does not speak in buzzwords or passive business language.</span></div>
+        </div>
+        <div class="card" style="padding:1.5rem;border:1px solid rgba(200,50,0,.14);display:flex;gap:1rem;align-items:flex-start;">
+          <div class="d" style="font-size:2.5rem;color:var(--red);line-height:1;flex-shrink:0;">06</div>
+          <div><strong style="color:var(--bone);">Never use generic stock photography.</strong><br><span style="font-size:13px;color:var(--silver);">Smiling professionals, handshakes, laptops in cafés — all of it is banned.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="border-top:1px solid rgba(255,255,255,.06);padding-top:3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <div class="d" style="font-size:1.5rem;">FREEWRLD <span style="color:var(--red);">AI</span></div>
+        <div style="font-size:11px;color:var(--silver);margin-top:.25rem;letter-spacing:.1em;">BRAND GUIDELINES v1.0 — 2026</div>
+      </div>
+      <div style="font-size:12px;color:rgba(140,140,140,.45);text-align:right;line-height:1.8;">
+        <div>For internal use — do not distribute publicly</div>
+        <div>Questions? Contact your brand team</div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Mark body ready so CSS hides .rev elements (avoids FOUC)
+    document.body.classList.add('js-ready');
+
+    // Scroll reveal with stagger
+    const revEls = document.querySelectorAll('.rev');
+    const revObs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('on'), i * 55);
+          revObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+    revEls.forEach(el => revObs.observe(el));
+
+    // Fallback: ensure everything is visible after 800ms (catches Puppeteer screenshots)
+    setTimeout(() => revEls.forEach(el => el.classList.add('on')), 800);
+
+    // Active nav dot
+    const secIds = ['hero','overview','logo','colors','type','voice','imagery','donts'];
+    const dots = document.querySelectorAll('.ndot');
+    const secObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const i = secIds.indexOf(e.target.id);
+          if (i > -1) dots.forEach((d,j) => d.classList.toggle('act', i === j));
+        }
+      });
+    }, { threshold: 0.35 });
+    secIds.forEach(id => { const el = document.getElementById(id); if (el) secObs.observe(el); });
+
+    function go(id) { document.getElementById(id)?.scrollIntoView({ behavior:'smooth' }); }
+  </script>
+</body>
+</html>
